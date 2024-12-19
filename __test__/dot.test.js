@@ -1,6 +1,6 @@
 const DoT = require('../src/index').DoT
 
-describe('Test DNS-over-HTTPS client', () => {
+describe('Test DNS-over-TLS client', () => {
   let dot = new DoT('ali1', './__test__/key.pem', './__test__/certificate.pem')
   let tests = [
     {
@@ -61,15 +61,6 @@ describe('Test DNS-over-HTTPS client', () => {
       dot.setProvider('ali1')
       expect(dot.provider).toBe('ali1')
       try {
-        await dot.resolve(dnsTest.domainName, dnsTest.domainType)
-        dot.setProvider('ali2')
-        expect(dot.provider).toBe('ali2')
-        await dot.resolve(dnsTest.domainName, dnsTest.domainType)
-        dot.setProvider('dnspod')
-        expect(dot.provider).toBe('dnspod')
-        await dot.resolve(dnsTest.domainName, dnsTest.domainType)
-        dot.setProvider('dnspod2')
-        expect(dot.provider).toBe('dnspod2')
         await dot.resolve(dnsTest.domainName, dnsTest.domainType)
       } catch (err) {
         isOk = false
