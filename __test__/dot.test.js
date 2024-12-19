@@ -1,43 +1,43 @@
 const DoT = require('../src/index').DoT
 
 describe('Test DNS-over-HTTPS client', () => {
-  let dot = new DoT('google', './__test__/key.pem', './__test__/certificate.pem')
+  let dot = new DoT('ali1', './__test__/key.pem', './__test__/certificate.pem')
   let tests = [
     {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'A'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'AAAA'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'CNAME'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'DS'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'DNSKEY'
     }, {
-      domainName: 'gmail.com',
+      domainName: 'mail.qq.com',
       domainType: 'MX'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'NS'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'NSEC'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'NSEC3'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'RRSIG'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'SOA'
     }, {
-      domainName: 'www.google.com',
+      domainName: 'www.baidu.com',
       domainType: 'TXT'
     }
     // Seems cleanbrowsing doesn't support caa query
@@ -48,28 +48,28 @@ describe('Test DNS-over-HTTPS client', () => {
   ]
 
   test('initialize dot', () => {
-    expect(dot.provider).toBe('google')
-    dot.setProvider('cleanbrowsing')
-    expect(dot.provider).toBe('cleanbrowsing')
+    expect(dot.provider).toBe('ali1')
+    dot.setProvider('dnspod')
+    expect(dot.provider).toBe('dnspod')
   })
 
-  test('fetch dns over tls through google, cloudflare, cleanbrowsing and quad9', async (done) => {
+  test('fetch dns over tls through ali1, ali2, dnspod and dnspod2', async (done) => {
     let totalTests = tests.length
     let isOk = true
     for (let i=0; i<totalTests; i++) {
       const dnsTest = tests[i]
-      dot.setProvider('google')
-      expect(dot.provider).toBe('google')
+      dot.setProvider('ali1')
+      expect(dot.provider).toBe('ali1')
       try {
         await dot.resolve(dnsTest.domainName, dnsTest.domainType)
-        dot.setProvider('cloudflare')
-        expect(dot.provider).toBe('cloudflare')
+        dot.setProvider('ali2')
+        expect(dot.provider).toBe('ali2')
         await dot.resolve(dnsTest.domainName, dnsTest.domainType)
-        dot.setProvider('cleanbrowsing')
-        expect(dot.provider).toBe('cleanbrowsing')
+        dot.setProvider('dnspod')
+        expect(dot.provider).toBe('dnspod')
         await dot.resolve(dnsTest.domainName, dnsTest.domainType)
-        dot.setProvider('quad9')
-        expect(dot.provider).toBe('quad9')
+        dot.setProvider('dnspod2')
+        expect(dot.provider).toBe('dnspod2')
         await dot.resolve(dnsTest.domainName, dnsTest.domainType)
       } catch (err) {
         isOk = false

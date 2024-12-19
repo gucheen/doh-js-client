@@ -1,6 +1,8 @@
-const DoH = require('./doh')
-const DoT = require('./dot')
-const Util = require('./util')
-module.exports.DoH = DoH
-module.exports.DoT = DoT
-module.exports.Util = Util
+import DoH from "./doh";
+import DoT from "./dot";
+import * as Util from "./util";
+export {
+  DoH,
+  DoT,
+  Util,
+}

@@ -3,9 +3,15 @@
 
 DNS-over-HTTPS/DNS-over-TLS client for nodejs, secure your nodejs dns query with modern tls.
 
+# changes of this fork
+
+1. migrate to ES modules
+2. add ali and dnspod as DNS provider
+3. add typescript declaration file
+
 # Install
 ```BASH
-$ npm install doh-js-client
+$ npm install @gucheen/doh-js-client
 ```
 
 # Usage
