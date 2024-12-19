@@ -83,20 +83,17 @@ class DoT {
           reject(new Error('socket authorized'))
         }
       })
+
+      let dataBuffer
       socket.on('data', (data) => {
-        let sign = data[0] & (1 << 7)
-        let totalLength = (data & 0xFF) << 8 | data[1] & 0xFF
-        if (sign) {
-          totalLength = 0xFFFF0000 | totalLength
-        }
-        let result = Packet.parse(data.slice(2))
-        resolve(result.answer)
+        dataBuffer = dataBuffer ? Buffer.concat([dataBuffer, data]) : data
       })
       socket.on('error', (err) => {
         reject(err)
       })
       socket.on('end', () => {
-        // finish query
+        const result = Packet.parse(dataBuffer.slice(2))
+        resolve(result.answer)
       })
     })
   }
